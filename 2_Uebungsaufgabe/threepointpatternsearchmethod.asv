@@ -8,10 +8,8 @@ end
 
 function [xu, xmidpoint, xo] = stepOne(f, xu, xmidpoint, xo, delta, findMaximum)
     % f(xu + delta) > f(xu)
-    fValueDelta = f(xu + delta);
-    fValue = f(xu);
-  
-    if(IsBetterValue(fValueDelta, fValue, findMaximum))
+    f_value = 
+    if(f(xu + delta) > f(xu))
         xmidpoint = xu + delta;
         [xu, xmidpoint, xo] = stepTwo(f, xu, xmidpoint, xo,delta, findMaximum);
     else 
