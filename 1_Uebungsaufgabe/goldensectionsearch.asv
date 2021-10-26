@@ -1,0 +1,57 @@
+function [x] = goldensectionsearch(f, xu, xo, EPSILON, MAX_NUMBER_OF_ITERATIONS)
+    %x = (xu + xo) / 2; %This line is here to make the code runnable and should not be included the final code.
+    
+    %your code
+    count = 0;
+    r = 0.6180339;
+    findMaximum = true;
+    x = 10000000;
+    settingsData = SettingsData(r, EPSILON, findMaximum, MAX_NUMBER_OF_ITERATIONS);
+    
+    x1 = xo - settingsData.R * (xo - xu);
+    x2 = xu + settingsData.R * (xo - xu);
+    
+    newParameterData = ParamterData(x1, x2, xu, xo);
+    
+    x = stepOne(xu, xo, x, count, settingsData);    
+end
+
+function [xOpt] = stepOne(parameterData, count, settingsData)       
+
+    while count < settingsData.MAX_NUMBER_OF_ITERATIONS            
+        count = count + 1;
+    
+        xo = parameterData.Xo;
+        xu = parameterData.Xu;
+        
+        if count == settingsData.MAX_NUMBER_OF_ITERATIONS
+            [xOpt] = 0.5 * (xo + xu);
+        end
+
+        x1 = xo - settingsData.R * (xo - xu);
+        x2 = xu + settingsData.R * (xo - xu);
+
+        parameterData.X1 = x1;
+        parameterData.X2 = x2;
+        
+        if (xo - xu) <= settingsData.EPSILON
+            [xOpt] = 0.5 * (xo + xu);
+        elseif IsBetterValue(x1, x2, settingsData.FindMaximum)            
+            stepTwo(parameterData, settingsData.R)
+        else
+            stepThree(xu, xo, x1, x2, settingsData.R)
+        end   
+    end     
+end
+
+function [xu, xo, x1, x2] = stepTwo(xu, xo, x1, x2, r)
+    xo = x2;
+    x2 = x1;
+    x1 = xo - r * (xo-xu);
+end
+
+function [xu, xo, x1, x2] = stepThree(xu, xo, x1, x2, r)
+    xu = x1; 
+    x1 = x2; 
+    x2 = xu + r * (xo - xu);    
+end
