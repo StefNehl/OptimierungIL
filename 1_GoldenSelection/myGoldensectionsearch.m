@@ -1,4 +1,4 @@
-function [x] = goldensectionsearch(f, xu, xo, EPSILON, MAX_NUMBER_OF_ITERATIONS)
+function [x] = myGoldensectionsearch(f, xu, xo, EPSILON, MAX_NUMBER_OF_ITERATIONS)
     %x = (xu + xo) / 2; %This line is here to make the code runnable and should not be included the final code.
     
     %your code
