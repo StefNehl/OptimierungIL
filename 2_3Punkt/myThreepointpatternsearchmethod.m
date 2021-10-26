@@ -1,8 +1,7 @@
-function [xu, xmidpoint, xo] = threepointpatternsearchmethod(f, xu, delta, findMaximum)
-    xmidpoint = xu; %Diese Zeile muss weggeloescht werden. (Sie ist hier nur, um den Code ausfuehrbar zu machen.)
-    xo = xu; %Diese Zeile muss weggeloescht werden. (Sie ist hier nur, um den Code ausfuehrbar zu machen.)
+function [xu, xmidpoint, xo] = myThreepointpatternsearchmethod(f, xu, delta, findMaximum)
+    xmidpoint = xu; 
+    xo = xu; 
     
-    %Ihr Code
     [xu, xmidpoint, xo] = stepOne(f, xu, xmidpoint, xo, delta, findMaximum);
 end
 
