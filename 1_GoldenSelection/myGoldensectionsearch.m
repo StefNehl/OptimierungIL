@@ -19,7 +19,7 @@ function [xOpt] = stepOne(f, xu, xo, count, settingsData)
         
         if (xo - xu) <= settingsData.EPSILON
             [xOpt] = 0.5 * (xo + xu);
-            break;
+            return;
         elseif IsBetterValue(f(x1), f(x2), settingsData.FindMaximum)            
             xo = x2;
             x2 = x1;
@@ -31,5 +31,6 @@ function [xOpt] = stepOne(f, xu, xo, count, settingsData)
         end
                
         count = count + 1;
-    end     
+    end   
+    [xOpt] = NaN;
 end
