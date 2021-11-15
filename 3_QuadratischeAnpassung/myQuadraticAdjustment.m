@@ -6,7 +6,11 @@ function [x] = myQuadraticAdjustment(f, xu, xmidpoint, xo, EPSILON, DELTA, MAX_N
 end
 
 function [x] = stepOne(f, xu, xm, xo, count, settings)
-    while ((xo - xu) >= settings.EPSILON || count < settings.MAX_NUMBER_OF_ITERATIONS)
+    while ((xo - xu) >= settings.EPSILON)
+        if count > settings.MAX_NUMBER_OF_ITERATIONS
+            x = NaN;
+            return;
+        end 
         xq = getXqValue(f, xu, xm, xo);
         
         if abs(xq - xm) < settings.DELTA
