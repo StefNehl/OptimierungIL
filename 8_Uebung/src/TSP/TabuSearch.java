@@ -1,5 +1,7 @@
 package TSP;
 import java.io.IOException;
+import java.util.*;
+
 /**
  * <b>Class implementing the tabu search.</b>
  * 
@@ -10,7 +12,11 @@ public class TabuSearch extends Algorithm
 	/*
 	 * Your parameters as private variables.
 	 */
-	
+	private final int tau;
+	private final int maxIteration;
+	private List<TabuSolution> tabuList;
+
+
 	/**
 	 * <b>Method implementing the tabu search.</b>
 	 *
@@ -20,16 +26,31 @@ public class TabuSearch extends Algorithm
 	{
 		Algorithm startHeuristic = new NearestNeighbourHeuristic(0, true);
 		startHeuristic.solve(instance2D);
-		solution = startHeuristic.getSolution();
-		
-		/*
-		 * Your algorithm.
-		 */
+		var startSolution = startHeuristic.getSolution();
+
+		this.tabuList = new ArrayList<>();
+
+		for(int i = 0; i < maxIteration; i++)
+		{
+
+		}
 	}
 	
 	/*
 	 * Constructor and the method toString (like in the class NearestNeighbourHeuristic).
 	 */
+	TabuSearch(int tau, int maxIteration)
+	{
+		this.tau = tau;
+		this.maxIteration = maxIteration;
+	}
+
+	public void addSolutionToTabuList(int[] route, int result)
+	{
+		var solution = new TabuSolution(route, this.tau, result);
+		tabuList.add(solution);
+	}
+
 	
 	/**
 	 * <b>The main function of the class TabuSearch.</b>
@@ -45,7 +66,7 @@ public class TabuSearch extends Algorithm
 		}
 		
 		Instance2D instance2D = new Instance2DDistanceMatrix(args[0]);
-		TabuSearch tabuSearch = new TabuSearch();
+		TabuSearch tabuSearch = new TabuSearch(3, 10000);
 		tabuSearch.solve(instance2D);
 		instance2D.draw(800, 800, tabuSearch.getSolution());
 		System.out.println(tabuSearch);
