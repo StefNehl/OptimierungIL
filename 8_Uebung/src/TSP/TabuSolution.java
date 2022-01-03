@@ -1,5 +1,7 @@
 package TSP;
 
+import java.util.Arrays;
+
 public class TabuSolution extends Solution {
 
     private int remainingTabu;
@@ -16,6 +18,11 @@ public class TabuSolution extends Solution {
     {
         if(remainingTabu > 0)
             remainingTabu--;
+    }
+
+    public String toString()
+    {
+        return getClass().getSimpleName() + ": ov: \"" + super.getLength() + "\", tabu:" + remainingTabu + "\", solution: " + Arrays.toString(super.getRoute());
     }
 
 }

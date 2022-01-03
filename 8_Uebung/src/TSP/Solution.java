@@ -1,5 +1,7 @@
 package TSP;
 
+import java.util.Arrays;
+
 public class Solution
 {
     private final int length;
@@ -39,5 +41,10 @@ public class Solution
                         route[reverseEndIndex],
                         route[reverseEndIndex+1]
                 };
+    }
+
+    public String toString()
+    {
+        return getClass().getSimpleName() + ": ov: \"" + length + "\", solution: " + Arrays.toString(route);
     }
 }
