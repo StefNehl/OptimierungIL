@@ -16,6 +16,7 @@ public class TabuSearch extends Algorithm
 	private final int maxIteration;
 	private final int maxReversals;
 	private final Random random;
+	private final boolean bestNearestNeighbourStart;
 	private NewRouteAlgorithmType typeEnum;
 
 	private List<TabuSolution> tabuList;
@@ -31,6 +32,22 @@ public class TabuSearch extends Algorithm
 		Algorithm startHeuristic = new NearestNeighbourHeuristic(0, true);
 		startHeuristic.solve(instance2D);
 		var startSolution = startHeuristic.getSolution();
+
+		if(bestNearestNeighbourStart)
+		{
+			var startResult = instance2D.oV(startSolution);
+
+			for(int i = 1; i < instance2D.points2D.length; i++)
+			{
+				var heuristic = new NearestNeighbourHeuristic(i, true);
+				heuristic.solve(instance2D);
+				var result = heuristic.getOV();
+
+				if(result < startResult)
+					startSolution = heuristic.getSolution();
+
+			}
+		}
 
 		this.tabuList = new ArrayList<>();
 
@@ -64,13 +81,14 @@ public class TabuSearch extends Algorithm
 	/*
 	 * Constructor and the method toString (like in the class NearestNeighbourHeuristic).
 	 */
-	public TabuSearch(int tau, int maxIteration, int maxReversals, NewRouteAlgorithmType typeEnum)
+	public TabuSearch(int tau, int maxIteration, int maxReversals, NewRouteAlgorithmType typeEnum, boolean bestNearestNeighbourStart)
 	{
 		this.tau = tau;
 		this.maxIteration = maxIteration;
 		this.maxReversals = maxReversals;
 		this.random = new Random();
 		this.typeEnum = typeEnum;
+		this.bestNearestNeighbourStart = bestNearestNeighbourStart;
 	}
 
 	private Solution getReversedSolutions(Solution bestSolution, Instance2D instance2D)
@@ -203,7 +221,7 @@ public class TabuSearch extends Algorithm
 		}
 		
 		Instance2D instance2D = new Instance2DDistanceMatrix(args[0]);
-		TabuSearch tabuSearch = new TabuSearch(3, 100, 5, NewRouteAlgorithmType.Reversed);
+		TabuSearch tabuSearch = new TabuSearch(3, 100, 5, NewRouteAlgorithmType.Reversed, true);
 		tabuSearch.solve(instance2D);
 		instance2D.draw(800, 800, tabuSearch.getSolution());
 		System.out.println(tabuSearch);
@@ -213,15 +231,20 @@ public class TabuSearch extends Algorithm
 	 *
 	 *Best Solution: 7544
 	 *
+	 * Result with best Nearest Neighbour
+	 *
+	 * Tau: 3, maxIteration: 100, maxReversals: 5, type: Reversed, bestNearestNeighbour: true
+	 * TabuSearch: ov: "8364", time: "0.064", solution: [28, 29, 22, 19, 49, 15, 43, 45, 24, 3, 5, 14, 4, 23, 47, 37, 36, 39, 38, 33, 34, 35, 48, 31, 0, 21, 17, 30, 20, 6, 1, 41, 16, 2, 44, 18, 40, 7, 8, 9, 42, 32, 50, 11, 27, 26, 25, 46, 12, 13, 51, 10]
 	 *
 	 * Good Results berlin52:
 	 *
-	 * Tau: 3, MaxIteration: 100, maxReversals: 5, type: Reversed
+	 * Tau: 3, MaxIteration: 100, maxReversals: 5, type: Reversed, bestNearestNeighbour: false
 	 * TabuSearch: ov: "8630", time: "0.025", solution: [28, 1, 6, 41, 16, 20, 29, 22, 19, 49, 15, 43, 45, 24, 3, 5, 14, 4, 23, 47, 37, 36, 39, 38, 33, 34, 35, 48, 31, 0, 21, 30, 17, 2, 44, 18, 40, 7, 8, 9, 42, 32, 50, 11, 27, 26, 25, 46, 12, 13, 51, 10]
 	 *
 	 *
 	 * Useless :D
-	 * Tau: 3, MaxIteration: 100000, maxReversals: 30
+	 * Vermutung ist, dass wir hier in einem lokalen maximum sind
+	 * Tau: 3, MaxIteration: 100000, maxReversals: 30, bestNearestNeighbour: false
 	 * TabuSearch: ov: "8630", time: "3977.621", solution: [28, 1, 6, 41, 16, 20, 29, 22, 19, 49, 15, 43, 45, 24, 3, 5, 14, 4, 23, 47, 37, 36, 39, 38, 33, 34, 35, 48, 31, 0, 21, 30, 17, 2, 44, 18, 40, 7, 8, 9, 42, 32, 50, 11, 27, 26, 25, 46, 12, 13, 51, 10]
 	 *
 	 **/
