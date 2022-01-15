@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="KP">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/KP.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
