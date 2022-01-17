@@ -2,20 +2,20 @@ import java.util.ArrayList;
 
 public class SolutionWithValue
 {
-    private ArrayList<Item> _items;
+    private ArrayList<Integer> _itemIds;
     private int _totalProfit;
     private int _totalWeight;
 
-    public SolutionWithValue(ArrayList<Item> items, int totalProfit, int totalWeight)
+    public SolutionWithValue(ArrayList<Integer> itemIds, int totalProfit, int totalWeight)
     {
-        _items = items;
+        _itemIds = itemIds;
         _totalProfit = totalProfit;
         _totalWeight = totalWeight;
     }
 
-    public ArrayList<Item> getItems()
+    public ArrayList<Integer> getItemIds()
     {
-        return _items;
+        return _itemIds;
     }
 
     public int getTotalProfit()
@@ -27,6 +27,6 @@ public class SolutionWithValue
 
     public String toString()
     {
-        return "[" +_totalProfit + "/" + _items.size() + "/" + _totalWeight + "]";
+        return "[" +_totalProfit + "/" + _itemIds.size() + "/" + _totalWeight + "]";
     }
 }
