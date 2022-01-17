@@ -27,6 +27,6 @@ public class SolutionWithValue
 
     public String toString()
     {
-        return "[" +_totalProfit + "/" + _itemIds.size() + "/" + _totalWeight + "]";
+        return "[" + _itemIds.size() + "/" + _totalProfit + "/" + _totalWeight + "]";
     }
 }

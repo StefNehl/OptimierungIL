@@ -71,7 +71,6 @@ public class DynamicProgrammingApproach extends Algorithm
 	{
 		var pastItemSolution = new SolutionWithValue(new ArrayList<>(), 0, 0);
 		var pastCapacitySolution = new SolutionWithValue(new ArrayList<>(), 0, 0);
-		var bestSolution = new SolutionWithValue(new ArrayList<>(), 0, 0);
 
 		if(itemIndex != 0)
 			pastItemSolution = solutions[itemIndex-1][currentCapacity];
@@ -79,45 +78,33 @@ public class DynamicProgrammingApproach extends Algorithm
 		if(currentCapacity != 0)
 			pastCapacitySolution = solutions[itemIndex][currentCapacity - 1];
 
+		var bestSolution = pastItemSolution;
+
+		if(currentItem.getP() > bestSolution.getTotalProfit() && currentItem.getW() <= currentCapacity)
+		{
+			var ids = new ArrayList<Integer>();
+			ids.add(currentItem.getId());
+			bestSolution = new SolutionWithValue(ids, currentItem.getP(), currentItem.getW());
+		}
 
 		var remainingCap = currentCapacity - currentItem.getW();
-		if(remainingCap > 0 && remainingCap != currentCapacity)
+		if(remainingCap > 0)
 		{
-			var fittingSol = solutions[itemIndex][remainingCap];
-
 			for(int i = 0; i < itemIndex; i++)
 			{
-				if(pastItemSolution.getTotalProfit() > fittingSol.getTotalProfit())
-					fittingSol = pastCapacitySolution;
-			}
-			if(fittingSol.getItemIds().contains(currentItem.getId()))
-				bestSolution = fittingSol;
-			else
-			{
-				var newItems = new ArrayList<Integer>();
-				newItems.addAll(fittingSol.getItemIds());
-				newItems.add(currentItem.getId());
-				bestSolution = new SolutionWithValue(newItems,
-						fittingSol.getTotalProfit() + currentItem.getP(),
-						fittingSol.getTotalWeight() + currentItem.getW());
+				var fittingSolution = solutions[i][remainingCap];
+				if(fittingSolution.getItemIds().contains(currentItem.getId()))
+					continue;
+
+				var newProfit = fittingSolution.getTotalProfit() + currentItem.getP();
+				if(newProfit > bestSolution.getTotalProfit())
+				{
+					var itemIds = (ArrayList<Integer>) fittingSolution.getItemIds().clone();
+					itemIds.add(currentItem.getId());
+					bestSolution = new SolutionWithValue(itemIds, newProfit, fittingSolution.getTotalWeight() + currentItem.getW());
+				}
 			}
 		}
-		else
-		{
-			if(currentItem.getW() <= currentCapacity)
-			{
-				var currentProfit = currentItem.getP();
-				var currentItems = new ArrayList<Integer>();
-				currentItems.add(currentItem.getId());
-				bestSolution = new SolutionWithValue(currentItems, currentProfit, currentItem.getW());
-			}
-		}
-
-		if(bestSolution.getTotalProfit() < pastItemSolution.getTotalProfit())
-			bestSolution = pastItemSolution;
-		else if(bestSolution.getTotalProfit() < pastCapacitySolution.getTotalProfit())
-			bestSolution = pastCapacitySolution;
-
 
 		return bestSolution;
 	}
