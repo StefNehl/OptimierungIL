@@ -69,14 +69,10 @@ public class DynamicProgrammingApproach extends Algorithm
 	//check a solution with remaining cap (solution plus currentitem)
 	private SolutionWithValue findBestSolutionForCurrentSettings(Item currentItem, int itemIndex,int currentCapacity, SolutionWithValue[][] solutions)
 	{
-		var pastItemSolution = new SolutionWithValue(new ArrayList<>(), 0, 0);
-		var pastCapacitySolution = new SolutionWithValue(new ArrayList<>(), 0, 0);
+		if(itemIndex == 0)
+			return null;
 
-		if(itemIndex != 0)
-			pastItemSolution = solutions[itemIndex-1][currentCapacity];
-
-		if(currentCapacity != 0)
-			pastCapacitySolution = solutions[itemIndex][currentCapacity - 1];
+		var pastItemSolution = solutions[itemIndex-1][currentCapacity];
 
 		var bestSolution = pastItemSolution;
 
