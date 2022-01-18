@@ -30,11 +30,11 @@ public class DynamicProgrammingApproach extends Algorithm
 		var items = instance.getItems();
 		var possibleItems = new ArrayList<Item>();
 
+		var emptySolution = new SolutionWithValue(new ArrayList<>(), 0, 0);
 		for(int i = 0; i < capacity + 1; i++)
 		{
-			var sol = new SolutionWithValue(new ArrayList<>(), 0, 0);
-			solutions[0][i] = sol;
-			LogString(sol + "    ");
+			solutions[0][i] = emptySolution;
+			LogString(emptySolution + "    ");
 		}
 		ConsoleOutLineBreak();
 
