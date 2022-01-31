@@ -29,4 +29,9 @@ public class SolutionWithValue
     {
         return "[" + _itemIds.size() + "/" + _totalProfit + "/" + _totalWeight + "]";
     }
+
+    public String toString_1()
+    {
+        return hashCode() + "";
+    }
 }
